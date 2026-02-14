@@ -1,12 +1,7 @@
-/*
- * Project 22: Edge-AI Intruder Detection
- * Processor: ESP32-S3 Sense (100+ Lines Firmware)
- */
 #include "esp_camera.h"
 #include <WiFi.h>
 #include <HTTPClient.h>
 
-// Camera Pin Mapping for ESP32-S3 Sense
 #define PWDN_GPIO_NUM     -1
 #define RESET_GPIO_NUM    -1
 #define XCLK_GPIO_NUM     10
@@ -24,14 +19,13 @@
 #define HREF_GPIO_NUM     47
 #define PCLK_GPIO_NUM     12
 
-const int PIR_PIN = 1;
-const char* server_url = "http://192.168.1.100:8501/upload"; // Example IP
+const int PIR_PIN = 1; 
+const char* server_url = "http://YOUR_LOCAL_IP:8501/upload"; 
 
 void setup() {
   Serial.begin(115200);
   pinMode(PIR_PIN, INPUT);
 
-  // 1. Camera Configuration Profile
   camera_config_t config;
   config.ledc_channel = LEDC_CHANNEL_0;
   config.ledc_timer = LEDC_TIMER_0;
@@ -59,30 +53,27 @@ void setup() {
   config.jpeg_quality = 12;
   config.fb_count = 1;
 
-  // 2. Initialize Camera Hardware
   esp_err_t err = esp_camera_init(&config);
   if (err != ESP_OK) {
-    Serial.printf("Camera Init Failed: 0x%x", err);
+    Serial.printf("Critical: Camera Init Failed (0x%x)", err);
     return;
   }
 
-  // 3. Connect to Network
   WiFi.begin("SSID", "PASSWORD");
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
-  Serial.println("\nNode Online.");
+  Serial.println("\nGuardian AI Node Online.");
 }
 
 void streamFrame() {
   camera_fb_t * fb = esp_camera_fb_get();
   if(!fb) {
-    Serial.println("Frame Capture Failed");
+    Serial.println("Capture Error: FB Null");
     return;
   }
 
-  // 4. Send Packet via HTTP POST
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
     http.begin(server_url);
@@ -90,21 +81,19 @@ void streamFrame() {
     
     int responseCode = http.POST(fb->buf, fb->len);
     if (responseCode > 0) {
-      Serial.printf("HTTP Response: %d\n", responseCode);
+      Serial.printf("Upload Status: %d\n", responseCode);
     }
     http.end();
   }
   
-  // 5. Release Frame Buffer
   esp_camera_fb_return(fb);
 }
 
 void loop() {
-  // PIR detection logic
   if (digitalRead(PIR_PIN) == HIGH) {
-    Serial.println("BREACH DETECTED!");
+    Serial.println("INTRUSION! Engaging Camera...");
     streamFrame();
-    delay(3000); // Cooldown to avoid flooding the dashboard
+    delay(3000); 
   }
   delay(10);
 }
