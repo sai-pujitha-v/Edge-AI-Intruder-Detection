@@ -1,4 +1,4 @@
-# 🛠️ Bill of Materials (Project 22)
+# 🛠️ Bill of Materials
 
 | Component | Specification | Purpose |
 | :--- | :--- | :--- |
