@@ -1,16 +1,20 @@
-👁️ Edge-AI Intruder Detection System
-A high-performance security node that combines PIR motion sensing with AI-driven image capture. This system is designed for "Edge" deployment, where initial threat detection happens on the device before alerting the central dashboard.
+# Edge AI Intruder Detection 👁️
 
-🚀 Features
-AI Motion Trigger: Dual-stage verification using PIR hardware and pixel-difference analysis.
+A high-performance security node that combines hardware-triggered motion sensing with AI-driven image capture to identify threats at the edge.
 
-Visual Evidence: Captures and streams SVGA resolution frames upon breach detection.
+## Description
+A high-performance security node combining hardware-triggered motion sensing with AI-driven image capture to identify and log threats at the edge.
 
-Intrusion Analytics: Python-based dashboard tracks entry vectors and threat levels.
+## Key Features
+- **AI Motion Trigger:** Dual-stage verification using PIR hardware and pixel-difference analysis.
+- **Visual Evidence:** Captures and streams SVGA resolution frames upon breach detection.
+- **Intrusion Analytics:** Python-based dashboard tracks entry vectors and threat levels.
 
-Low Power Mode: Device remains in deep sleep until the PIR sensor wakes the CPU.
+## Tech Stack
+- **Language:** Python, C++
+- **Libraries:** OpenCV, Streamlit, Pillow, esp_camera
+- **Model:** Pixel-differential motion analysis and buffer management
 
-⚙️ Engineering Logic
-Hardware: The ESP32-S3 manages the OV2640 camera module. It uses 8MB of PSRAM to buffer high-resolution images.
-
-Software: The Python dashboard acts as a central monitoring station, receiving base64 encoded image data and timestamping every "Incursion Event."
+## Engineering Logic
+- **Hardware:** The ESP32-S3 uses a PIR sensor as a hardware interrupt to wake the CPU from deep sleep for image capture.
+- **Software:** Python handles the incoming Base64 stream, performs normalization, and updates a localized database for audit tracking.
