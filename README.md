@@ -16,5 +16,5 @@ A high-performance security node combining hardware-triggered motion sensing wit
 - **Model:** Pixel-differential motion analysis and buffer management
 
 ## Engineering Logic
-- **Hardware:** The ESP32-S3 uses a PIR sensor as a hardware interrupt to wake the CPU from deep sleep for image capture.
-- **Software:** Python handles the incoming Base64 stream, performs normalization, and updates a localized database for audit tracking.
+- **Hardware:** The ESP32-S3 utilizes an HC-SR501 PIR sensor as a hardware interrupt to wake the CPU from deep sleep for instantaneous image acquisition.
+- **Software:** Python handles the incoming Base64 stream, performs image normalization, and updates a localized SQLite database for forensic audit tracking.
