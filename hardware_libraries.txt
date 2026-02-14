@@ -1,0 +1,5 @@
+1. esp_camera (Built-in ESP32 Expressif)
+2. ArduinoJson (by Benoit Blanchon)
+3. WiFi (Built-in)
+4. HTTPClient (Built-in)
+5. Base64 (by densaugeo)
